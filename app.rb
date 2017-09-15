@@ -1,14 +1,8 @@
 require "sinatra"
 require_relative "isbn.rb"
 require 'aws-sdk'
-load "./local_env.rb" 
-
-:access_key_id => ENV['S3_KEY']
-:secret_access_key => ENV['S3_SECRET'] 
-bucket => ENV['S3_BUCKET']
-file => ENV['S3File']
-
-
+load './local_env.rb' if File.exist?('./local_env.rb')
+Aws.use_bundled_cert!
 
 get '/' do
 erb :enter_isbn
@@ -31,7 +25,7 @@ end
 get '/isbn_out' do 
 isbn_data = params[:isbn_data]
 isbn_done = params[:isbn_done]
-
+push_to_bucket(isbn_data, isbn_done)
 erb :isbn_out, :locals => {:isbn_data=>isbn_data, :isbn_done=>isbn_done}
 end
 
@@ -39,6 +33,7 @@ post '/isbn_out' do
 
 isbn_data = params[:isbn_data]
 isbn_done = params[:isbn_done]
+
 end
 
 

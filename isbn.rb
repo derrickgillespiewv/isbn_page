@@ -68,8 +68,49 @@ def csv_func
           write_file.puts row[0] + "," + row[1] + "," + row[2]
 
    end
+   write_file.close
 end
 
+def csv_func_web
+    write_file = File.open("output_isbn_file.csv", "w" , { :col_sep => "\n" , :row_sep => "\n"} )
+
+    CSV.foreach('new_file.csv') do |row|
+        if isbn_check(row[1]).to_s== "true"
+            row << ("valid")
+                else
+            row << ("invalid")
+
+        end
+    
+          write_file.puts row[0] + "," + row[1] + "," + row[2]
+
+   end
+end
+
+def push_to_bucket(user_given_isbn, result_message)
+    Aws::S3::Client.new(
+    access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+    secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+    region: ENV['AWS_REGION']
+    )
+    file = 'new_file.csv'
+
+    write_file = File.open(file, "a")
+    write_file << user_given_isbn + ", " + result_message + "\n"
+    write_file.close
+   
+    bucket = 'isbn-filter'
+
+    s3 = Aws::S3::Resource.new(region: 'us-east-2')
+
+    obj = s3.bucket(bucket).object(file)
+    
+    File.open(file, 'rb') do |file|
+        obj.put(body: file)
+    end
+end
+
+ 
 
 def clean(number)
 	string = number
@@ -188,6 +229,3 @@ else
 end
 number
 end 
-  
-csv_func
-push_b()
