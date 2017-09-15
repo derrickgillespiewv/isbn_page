@@ -26,6 +26,7 @@ get '/isbn_out' do
 isbn_data = params[:isbn_data]
 isbn_done = params[:isbn_done]
 push_to_bucket(isbn_data, isbn_done)
+
 erb :isbn_out, :locals => {:isbn_data=>isbn_data, :isbn_done=>isbn_done}
 end
 

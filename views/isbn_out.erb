@@ -2,6 +2,6 @@
 <form method = "post" action = "/isbn_out">  
 	<input type= "hidden" name= "isbn_data" value= '<%= isbn_data %>'>
 	<input type= "hidden" name= "isbn_done" value= '<%= isbn_done %>'>
-	<h3> Your processed data of <%= isbn_data %> is <%= isbn_done %>.</h3>
+	<h3> Your processed data of <%= isbn_data %> is a(n) <%= isbn_done %> ISBN.</h3>
 	<a href="/enter_isbn"><button type="button">Start Over</button></a>
 </form>

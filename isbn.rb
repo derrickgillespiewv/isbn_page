@@ -1,10 +1,8 @@
 require 'rubygems'
 require 'aws-sdk'
 require 'csv'
-load './local_env.rb' if File.exist?('./local_env.rb')
+load "./local_env.rb" 
 Aws.use_bundled_cert!
-
-
 def push_b()
   Aws::S3::Client.new(
   access_key_id: ENV['AWS_ACCESS_KEY_ID'],
@@ -97,7 +95,7 @@ def push_to_bucket(user_given_isbn, result_message)
     )
     file = 'new_file.csv'
 
-    write_file = File.open(file, "a")
+    write_file = File.open(file, "w")
     write_file << user_given_isbn + ", " + result_message + "\n"
     write_file.close
    
@@ -224,10 +222,30 @@ end
 
 def isbn_text(number)
 if number == true
-	number = "a valid ISBN"
+	number = "valid"
 elsif number == false
-	number = "not a valid ISBN"
+	number = "invalid"
 else
 end
 number
 end 
+
+def get_file()
+    Aws::S3::Client.new(
+        access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+        secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+        region: ENV['AWS_REGION']
+        )
+    s3 = Aws::S3::Client.new
+    csv_file_from_bucket = s3.get_object(bucket: 'isbn-filter', key: 'new_file.csv')
+    csv_file_read = csv_file_from_bucket.body.read
+
+    split_csv = csv_file_read.split
+    list = []
+    split_csv.each do |item|
+        item.gsub(/"/, '')
+        list << item
+    end
+    p list
+end
+get_file
