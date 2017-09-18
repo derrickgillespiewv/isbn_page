@@ -1,0 +1,23 @@
+
+<form method = "post" action = "/list_isbn">  
+	<input type= "hidden" name= "isbn_data" value= '<%= isbn_data %>'>
+	<input type= "hidden" name= "isbn_done" value= '<%= isbn_done %>'>
+	<input type= "hidden" name= "isbn_display" value= '<%= list_display %>'>
+	<h3> All entered numbers are: <br>
+
+	<% list_display = list_display.gsub("[", "").gsub(" ", "").gsub("]","") %>
+	<% list_display = list_display.delete(' ')  %>
+	<% list_display = list_display.split(",") %>
+	
+	<%  list_display.each_with_index do |single, posi| %>
+	<% if posi % 3 == 0 %>
+	<br>
+	<% else %>
+	<% end %>
+	<%= "#{single.gsub('"','')}" %>
+	<% end %>
+	</h3>
+
+	<a href="/enter_isbn"><button type="button">Start Over</button></a>
+	
+</form>

@@ -3,6 +3,7 @@ require 'aws-sdk'
 require 'csv'
 load "./local_env.rb" 
 Aws.use_bundled_cert!
+
 def push_b()
   Aws::S3::Client.new(
   access_key_id: ENV['AWS_ACCESS_KEY_ID'],
@@ -95,7 +96,7 @@ def push_to_bucket(user_given_isbn, result_message)
     )
     file = 'new_file.csv'
 
-    write_file = File.open(file, "w")
+    write_file = File.open(file, "a")
     write_file << user_given_isbn + ", " + result_message + "\n"
     write_file.close
    
@@ -246,6 +247,32 @@ def get_file()
         item.gsub(/"/, '')
         list << item
     end
-    p list
+
+  	little_array = []
+	
+	if list.length % 2 == 0
+		a = list.length/2
+		a.times do 
+		sets_1 = list.pop(2).to_a
+		little_array << sets_1
+		set_1 = 0
+	end
+
+	else 
+		extra = sets.pop
+		b = list.length/2
+		b.times do 
+		sets_1 = list.pop(2).to_a
+		little_array << sets_1
+		set_1 = 0
+	end
+	little_array[0] << extra
+end
+
+ little_array.class
+little_array.each do |single|
+	single = single.join(" ")
+ "#{single}" + "\n"
+end
 end
 get_file

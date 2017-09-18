@@ -34,10 +34,17 @@ post '/isbn_out' do
 
 isbn_data = params[:isbn_data]
 isbn_done = params[:isbn_done]
-
+list_display = params[:list_display]
+list_display = get_file
+redirect '/list_isbn?isbn_done=' + isbn_done.to_s + '&isbn_data=' + isbn_data.to_s + '&list_display=' + list_display.to_s
 end
 
-
+get '/list_isbn' do
+isbn_data = params[:isbn_data]
+isbn_done = params[:isbn_done]
+list_display = params[:list_display]
+erb :list_isbn, :locals => {:isbn_data=>isbn_data, :isbn_done=>isbn_done, :list_display=>list_display}
+end 
 # <input type ="number" min = 1 max = 100 value = isbn_data[] autofocus = "autofocus" id ="nameList" oninput = "nameFunction()" >
 #     <p id = "demo"></p>
 #     <br>
