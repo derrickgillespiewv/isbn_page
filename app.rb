@@ -16,9 +16,8 @@ post '/enter_isbn' do
 isbn_data = params[:isbn_data].to_s
 isbn_done = params[:isbn_done].to_s
 isbn_done = isbn_check(isbn_data)
-p isbn_done
 isbn_done = isbn_text(isbn_done).to_s
-p isbn_done
+
 redirect '/isbn_out?isbn_done=' + isbn_done.to_s + '&isbn_data=' + isbn_data.to_s
 end 
 

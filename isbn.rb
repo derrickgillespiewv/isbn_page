@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'aws-sdk'
 require 'csv'
-load "./local_env.rb" 
+load './local_env.rb' if File.exist?('./local_env.rb')
 Aws.use_bundled_cert!
 
 def push_b()
